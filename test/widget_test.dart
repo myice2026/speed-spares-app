@@ -11,12 +11,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:speed_spares_app/main.dart';
 
 void main() {
-  testWidgets('Login screen smoke test', (WidgetTester tester) async {
+  testWidgets('Speed Spares app loads splash screen', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    // Verify that login view shows expected texts.
-    expect(find.text('Speed Spares Login'), findsOneWidget);
-    expect(find.text('INGRESAR'), findsOneWidget);
+    // Verify that splash screen shows logo and loading indicator
+    expect(find.byType(Image), findsOneWidget);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 }

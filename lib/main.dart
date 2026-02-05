@@ -4,7 +4,7 @@ import 'package:speed_spares_app/viewmodels/pedido_viewmodel.dart';
 import 'package:speed_spares_app/viewmodels/taller_viewmodel.dart';
 import 'viewmodels/producto_viewmodel.dart';
 import 'viewmodels/auth_viewmodel.dart';
-import 'views/login_view.dart';
+import 'views/splash_view.dart';
 
 
 void main() {
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Speed Spares',
         theme: ThemeData(primarySwatch: Colors.indigo),
-        home: LoginView(), // Ahora arrancamos en el Login
+        home: SplashView(), // Splash screen como pantalla inicial
       ),
     );
   }

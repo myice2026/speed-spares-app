@@ -21,13 +21,18 @@ class _LoginViewState extends State<LoginView> {
       body: Padding(
         padding: EdgeInsets.all(20),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.lock, size: 80, color: Colors.blue),
-              SizedBox(height: 20),
-              Text("Speed Spares Login", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-              SizedBox(height: 30),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/LOGO_SPEED_SPARES_(3)[1].jpg',
+                  width: 200,
+                  height: 200,
+                ),
+                SizedBox(height: 20),
+                Text("Speed Spares", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                SizedBox(height: 30),
               
               // Campos de texto
               TextField(
@@ -72,6 +77,7 @@ class _LoginViewState extends State<LoginView> {
                 child: Text("¿No tienes cuenta? Regístrate"),
               )
             ],
+            ),
           ),
         ),
       ),
