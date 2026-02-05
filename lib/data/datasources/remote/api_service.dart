@@ -1,8 +1,9 @@
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:speed_spares_app/models/pedido.dart';
-import 'package:speed_spares_app/models/taller.dart';
-import '../models/producto.dart';
+import '../../models/pedido.dart';
+import '../../models/taller.dart';
+import '../../models/producto.dart';
 import 'dart:io'; // Para detectar si es Android o iOS
 
 class ApiService {
@@ -16,12 +17,12 @@ class ApiService {
   }
 
   // Obtener lista de productos
-  Future<List<Producto>> getProductos() async {
+  Future<List<ProductoModel>> getProductos() async {
     try {
       final response = await http.get(Uri.parse(baseUrl));
       if (response.statusCode == 200) {
         List<dynamic> body = jsonDecode(response.body);
-        return body.map((item) => Producto.fromJson(item)).toList();
+        return body.map((item) => ProductoModel.fromJson(item)).toList();
       } else {
         throw Exception('Error del servidor: ${response.statusCode}');
       }
@@ -31,7 +32,7 @@ class ApiService {
   }
 
   // Crear un producto nuevo (para probar que guarda)
-  Future<void> crearProducto(Producto producto) async {
+  Future<void> crearProducto(ProductoModel producto) async {
     await http.post(
       Uri.parse(baseUrl),
       headers: {"Content-Type": "application/json"},
@@ -53,7 +54,7 @@ class ApiService {
       throw Exception('Error al comprar');
     }
   }
-  Future<List<Pedido>> getPedidosUsuario(int usuarioId) async {
+  Future<List<PedidoModel>> getPedidosUsuario(int usuarioId) async {
     // URL: http://.../api/pedidos/usuario/1
     final url = baseUrl.replaceAll("/productos", "/pedidos/usuario/$usuarioId");
     
@@ -61,13 +62,13 @@ class ApiService {
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
-      return body.map((item) => Pedido.fromJson(item)).toList();
+      return body.map((item) => PedidoModel.fromJson(item)).toList();
     } else {
       throw Exception('No se pudieron cargar los pedidos');
     }
   }
 // Obtener Talleres
-  Future<List<Taller>> getTalleres() async {
+  Future<List<TallerModel>> getTalleres() async {
     final url = baseUrl.replaceAll("/productos", "/talleres"); // Cambia la ruta
     // Nota: Si baseUrl termina en /auth, asegúrate de ajustarlo. 
     // Lo ideal es tener una variable BASE_URL_ROOT = 'http://10.0.2.2:8080/api';
@@ -78,11 +79,12 @@ class ApiService {
 
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
-      return body.map((item) => Taller.fromJson(item)).toList();
+      return body.map((item) => TallerModel.fromJson(item)).toList();
     } else {
       throw Exception('Error al cargar talleres');
     }
   }
-}   
+}
+   
 
 

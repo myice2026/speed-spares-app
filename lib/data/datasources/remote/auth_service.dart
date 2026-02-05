@@ -1,7 +1,8 @@
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import '../models/usuario.dart';
+import '../../models/usuario.dart';
 
 class AuthService {
   // Detecta si es Android (10.0.2.2) o Web/iOS (localhost)
@@ -14,7 +15,7 @@ class AuthService {
   }
 
   // Función de Login
-  Future<Usuario> login(String email, String password) async {
+  Future<UsuarioModel> login(String email, String password) async {
     final response = await http.post(
       Uri.parse('$baseUrl/login'),
       headers: {"Content-Type": "application/json"},
@@ -22,14 +23,14 @@ class AuthService {
     );
 
     if (response.statusCode == 200) {
-      return Usuario.fromJson(jsonDecode(response.body));
+      return UsuarioModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Credenciales incorrectas'); // Error 401
     }
   }
 
   // Función de Registro
-  Future<Usuario> registro(Usuario usuario) async {
+  Future<UsuarioModel> registro(UsuarioModel usuario) async {
     final response = await http.post(
       Uri.parse('$baseUrl/registro'),
       headers: {"Content-Type": "application/json"},
@@ -37,7 +38,7 @@ class AuthService {
     );
 
     if (response.statusCode == 200) {
-      return Usuario.fromJson(jsonDecode(response.body));
+      return UsuarioModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Error al registrar: ¿El email ya existe?');
     }
