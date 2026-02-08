@@ -44,8 +44,8 @@ class _DetalleProductoViewState extends ConsumerState<DetalleProductoView> {
       data: (_) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Row(
-              children: const [
+            content:const Row(
+              children: [
                 Icon(Icons.check_circle, color: Colors.white),
                 SizedBox(width: 10),
                 Expanded(child: Text('¡Compra realizada con éxito! 🚗')),

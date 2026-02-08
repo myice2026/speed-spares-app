@@ -35,7 +35,7 @@ class OrderNotifier extends StateNotifier<AsyncValue<void>> {
       final repository = _ref.read(orderRepositoryProvider);
       await repository.crearPedido(user.id!, productoId);
       // Refresh the orders list
-      _ref.refresh(userOrdersProvider);
+      final _ = _ref.refresh(userOrdersProvider);
       state = const AsyncValue.data(null);
     } catch (e, st) {
       state = AsyncValue.error(e, st);

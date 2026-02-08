@@ -37,7 +37,7 @@ class ProductActionsNotifier extends StateNotifier<AsyncValue<void>> {
     state = const AsyncValue.loading();
     try {
        // Invalidating the FutureProvider will cause it to refetch
-      _ref.refresh(productsFutureProvider);
+      final _ = _ref.refresh(productsFutureProvider);
       state = const AsyncValue.data(null);
     } catch (e, st) {
       state = AsyncValue.error(e, st);

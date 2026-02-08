@@ -9,17 +9,27 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # Estas son tus herramientas (SOLO UNA VEZ CADA UNA)
   cupertino_icons: ^1.0.8
   http: ^1.1.0
   url_launcher: ^6.2.4
   flutter_riverpod: ^2.5.1
+  google_fonts: ^8.0.1
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon.png"
 
 flutter:
   uses-material-design: true
