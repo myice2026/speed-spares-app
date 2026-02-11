@@ -1,157 +1,100 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../domain/entities/producto.dart';
 
 class ProductCard extends StatelessWidget {
   final Producto producto;
   final VoidCallback onTap;
-  final VoidCallback? onAddToCart;
-  final VoidCallback? onToggleFavorite;
 
   const ProductCard({
     Key? key,
     required this.producto,
     required this.onTap,
-    this.onAddToCart,
-    this.onToggleFavorite,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(16),
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(16),
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Imagen / Icono Placeholder
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: Colors.indigo.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(12),
+    const Color kPrimaryColor = Color(0xFF2962FF);
+
+    Widget getImage() {
+      if (producto.imagenPrincipalUrl != null &&
+          producto.imagenPrincipalUrl!.isNotEmpty) {
+        final String url = producto.imagenPrincipalUrl!;
+        
+        if (url.startsWith('assets/')) {
+          return Image.asset(
+            url,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return const Icon(Icons.broken_image, size: 40, color: Colors.grey);
+            },
+          );
+        } else {
+          return Image.network(
+            url,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return const Icon(Icons.broken_image, size: 40, color: Colors.grey);
+            },
+          );
+        }
+      }
+      return const Icon(Icons.category_outlined, size: 40, color: Colors.grey);
+    }
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(12),
+                ),
+                child: getImage(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    producto.nombre,
+                    style: GoogleFonts.outfit(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                      color: Colors.black87,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  child: Center(
-                    child: Icon(
-                      Icons.car_repair,
-                      size: 40,
-                      color: Colors.indigo[400],
+                  const SizedBox(height: 4),
+                  Text(
+                    '\$${producto.precio.toStringAsFixed(2)}',
+                    style: GoogleFonts.outfit(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: kPrimaryColor,
                     ),
                   ),
-                ),
-
-                const SizedBox(width: 16),
-
-                // Contenido
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              producto.nombre,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: Colors.black87,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          // Placeholder Favorito
-                          InkWell(
-                            onTap: onToggleFavorite ?? () {}, // Future action
-                            borderRadius: BorderRadius.circular(20),
-                            child: const Padding(
-                              padding: EdgeInsets.all(4),
-                              child: Icon(
-                                Icons.favorite_border,
-                                size: 20,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        producto.descripcion,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey[600],
-                          height: 1.2,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '\$${producto.precio.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.indigo[600],
-                            ),
-                          ),
-                          // Acción rápida: Agregar al carrito
-                          Material(
-                            color: Colors.indigo[50], // Fondo sutil
-                            borderRadius: BorderRadius.circular(8),
-                            child: InkWell(
-                              onTap: onAddToCart ??
-                                  () {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            "Próximamente: Agregar al carrito"),
-                                        duration: Duration(milliseconds: 500),
-                                      ),
-                                    );
-                                  },
-                              borderRadius: BorderRadius.circular(8),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Icon(
-                                  Icons.add_shopping_cart,
-                                  size: 20,
-                                  color: Colors.indigo[600],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

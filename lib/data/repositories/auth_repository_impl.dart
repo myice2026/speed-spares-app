@@ -28,7 +28,7 @@ class AuthRepositoryImpl implements AuthRepository {
         nombreCompleto: usuario.nombreCompleto,
         email: usuario.email,
         password: usuario.password,
-        rol: usuario.rol,
+        roles: usuario.roles,
       );
       final model = await _authService.registro(usuarioModel);
       return model;

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/auth_provider.dart';
 import 'main_screen.dart';
 import 'registro_view.dart';
-import 'admin_home_view.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -17,17 +16,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
   final TextEditingController passCtrl = TextEditingController();
 
   Future<void> _handleLogin() async {
-    // Check for Admin Credentials
-    if (emailCtrl.text == "admin@speedspares.co" &&
-        passCtrl.text == "admin123") {
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const AdminHomeView()),
-      );
-      return;
-    }
-
     final success = await ref
         .read(authProvider.notifier)
         .login(emailCtrl.text, passCtrl.text);

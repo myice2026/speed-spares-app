@@ -1,4 +1,3 @@
-
 import '../../domain/entities/usuario.dart';
 
 class UsuarioModel extends Usuario {
@@ -7,13 +6,17 @@ class UsuarioModel extends Usuario {
     required String nombreCompleto,
     required String email,
     String? password,
-    String rol = 'CLIENTE',
+    String roles = 'CLIENTE',
+    String? telefono,
+    bool? activo,
   }) : super(
           id: id,
           nombreCompleto: nombreCompleto,
           email: email,
           password: password,
-          rol: rol,
+          roles: roles,
+          telefono: telefono,
+          activo: activo,
         );
 
   factory UsuarioModel.fromJson(Map<String, dynamic> json) {
@@ -21,7 +24,10 @@ class UsuarioModel extends Usuario {
       id: json['id'],
       nombreCompleto: json['nombreCompleto'],
       email: json['email'],
-      rol: json['rol'],
+      password: json['password'],
+      roles: json['roles'] != null ? (json['roles'] as List).first : 'CLIENTE',
+      telefono: json['telefono'],
+      activo: json['activo'],
     );
   }
 
@@ -30,7 +36,9 @@ class UsuarioModel extends Usuario {
       'nombreCompleto': nombreCompleto,
       'email': email,
       'password': password,
-      'rol': rol,
+      'roles': roles,
+      'telefono': telefono,
+      'activo': activo,
     };
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'home_view.dart';
 import 'mis_pedidos_view.dart';
 import 'profile_view.dart';
+import 'productos_view.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   final String email;
@@ -23,6 +24,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     // Initialize pages with dynamic data
     _pages = [
       const HomeView(),
+      const ProductosView(), // Productos desde backend
       const MisPedidosView(),
       ProfileView(email: widget.email),
     ];
@@ -64,6 +66,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               icon: Icon(Icons.home_outlined),
               activeIcon: Icon(Icons.home_filled),
               label: 'Inicio',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.storefront_outlined),
+              activeIcon: Icon(Icons.storefront),
+              label: 'Productos',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.local_shipping_outlined),

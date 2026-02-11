@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart'; // Ensure google_fonts is added or fallback to standard
-import '../providers/auth_provider.dart';
-import '../providers/product_provider.dart'; // Keep for future connection
+ // Keep for future connection
 
 import 'product_detail_view.dart'; // Import simplified detail view
 import 'mis_pedidos_view.dart'; // Import MisPedidosView
@@ -38,18 +37,21 @@ class _HomeViewState extends ConsumerState<HomeView> {
       "price": "\$349.99",
       "rating": "4.8",
       "category": "Motor",
+      "imageUrl": 'assets/Aceites_motor_sintético_premium.jpg',
     },
     {
       "title": "Kit Serie GT Brembo",
       "price": "\$1,299.00",
       "rating": "5.0",
       "category": "Frenos",
+      "imageUrl": "assets/Kit de Freno Completo Delantero.jpeg",
     },
     {
       "title": "Ohlins Carretera y Pista",
       "price": "\$2,450.00",
       "rating": "4.9",
       "category": "Suspensión",
+      "imageUrl": "assets/Líquido de Frenos2.jpeg",
     },
   ];
 
@@ -336,7 +338,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             product['title'],
                             product['price'],
                             product['rating'],
-                            kSurfaceColor,
+                            product['imageUrl'],
                           );
                         },
                       ),
@@ -439,12 +441,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
   }
 
   Widget _cardProducto(
-      String title, String price, String rating, Color surfaceColor) {
+      String title, String price, String rating, String imageUrl) {
     return Container(
       width: 160,
       margin: const EdgeInsets.only(right: 16),
       decoration: BoxDecoration(
-        color: surfaceColor,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white.withOpacity(0.05)),
       ),
@@ -466,12 +467,35 @@ class _HomeViewState extends ConsumerState<HomeView> {
             children: [
               Expanded(
                 child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white10,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF2C2C2C),
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
                   ),
                   child: Center(
-                      child: Icon(Icons.build_circle_outlined,
-                          size: 48, color: Colors.grey[700])),
+                    child: imageUrl.startsWith('assets/')
+                        ? Image.asset(
+                            imageUrl,
+                            width: 150,
+                            height: 150,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(Icons.broken_image,
+                                  size: 40, color: Colors.grey);
+                            },
+                          )
+                        : Image.network(
+                            imageUrl,
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(Icons.broken_image,
+                                  size: 40, color: Colors.grey);
+                            },
+                          ),
+                  ),
                 ),
               ),
               Padding(

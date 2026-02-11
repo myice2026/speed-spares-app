@@ -177,7 +177,9 @@ class _DetalleProductoViewState extends ConsumerState<DetalleProductoView> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    widget.producto.descripcion,
+                    widget.producto.descripcion?.isNotEmpty == true
+                        ? widget.producto.descripcion!
+                        : "No hay descripción disponible.",
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: Colors.grey[600],
                       height: 1.5,

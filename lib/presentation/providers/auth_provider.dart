@@ -42,7 +42,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<bool> register(String nombre, String email, String password) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      final newUser = Usuario(nombreCompleto: nombre, email: email, password: password);
+      final newUser = Usuario(nombreCompleto: nombre, email: email, password: password, roles: 'CLIENTE');
       // Note: Repository expects a user object, usually without ID for pure registration
       final user = await _repository.register(newUser);
       
